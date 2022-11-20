@@ -1,0 +1,9 @@
+<Project>
+
+    <PropertyGroup>
+        <LangVersion>10</LangVersion>
+        <IsPackable>false</IsPackable>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+</Project>

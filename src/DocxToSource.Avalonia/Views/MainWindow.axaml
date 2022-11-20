@@ -1,0 +1,115 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DocxToSource.Avalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:source="https://github.com/avaloniaui/avaloniaedit"
+        xmlns:viewModels="clr-namespace:DocxToSource.Avalonia.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="DocxToSource.Avalonia.Views.MainWindow"
+        Title="Docx To Source" Height="600" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        x:DataType="viewModels:MainWindowViewModel">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="GridSplitter">
+            <Setter Property="ShowsPreview" Value="True"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style Selector="source|TextEditor">
+            <Setter Property="FontFamily" Value="Monospace"/>
+            <Setter Property="ShowLineNumbers" Value="True"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="WordWrap" Value="{CompiledBinding WordWrap}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
+    </Window.Styles>
+
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Ctrl+Q" Command="{Binding QuitCommand}"/>
+        <KeyBinding Gesture="Ctrl+O" Command="{Binding OpenCommand}"/>
+        <KeyBinding Gesture="Ctrl+C" Command="{Binding CloseCommand}"/>
+    </Window.KeyBindings>
+
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" InputGesture="Ctrl+O" Command="{CompiledBinding OpenCommand}"/>
+                <MenuItem Header="_Close" InputGesture="Ctrl+C" Command="{CompiledBinding CloseCommand}"/>
+                <Separator/>
+                <MenuItem Header="_Quit" InputGesture="Ctrl+Q" Command="{CompiledBinding QuitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Source Code">
+                <MenuItem Header="_Generate Source Code">
+                    <MenuItem.Icon>
+                        <CheckBox IsChecked="{CompiledBinding GenerateSourceCode}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_Word Wrap">
+                    <MenuItem.Icon>
+                        <CheckBox IsChecked="{CompiledBinding WordWrap}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Syntax _Highlighting">
+                    <MenuItem.Icon>
+                        <CheckBox IsChecked="{CompiledBinding HighlightSyntax}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid ColumnDefinitions="500,1,2*">
+            <Grid Grid.Column="0" RowDefinitions="40,*">
+                <StackPanel
+                    Grid.Row="0"
+                    Background="#FFF0F0F0"
+                    Orientation="Horizontal">
+                    <TextBlock>Language:</TextBlock>
+                    <ComboBox
+                        Width="160"
+                        Items="{CompiledBinding LanguageDefinitions}"
+                        SelectedItem="{CompiledBinding SelectedLanguage}">
+                    </ComboBox>
+                </StackPanel>
+                <TreeView
+                    Grid.Row="1"
+                    BorderThickness="0"
+                    Items="{Binding TreeData}"
+                    SelectedItem="{CompiledBinding Path=SelectedItem, Mode=TwoWay}">
+                    <TreeView.DataTemplates>
+                        <TreeDataTemplate ItemsSource="{Binding Children}">
+                            <TextBlock Text="{Binding Header}" />
+                        </TreeDataTemplate>
+                    </TreeView.DataTemplates>
+                </TreeView>
+            </Grid>
+            <GridSplitter ResizeDirection="Columns" Width="1" Grid.Column="1"/>
+            <Grid Grid.Column="2">
+                <!-- ReSharper disable once Xaml.GridDefinitionsCanBeConvertedToAttribute -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="{CompiledBinding IsOpenXmlElement, Converter={StaticResource GridLengthConverter}}" />
+                    <RowDefinition Height="{CompiledBinding IsOpenXmlElement, Converter={StaticResource GridLengthConverter}, ConverterParameter=4}"  />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <source:TextEditor x:Name="XXmlSourceEditor"
+                                   Grid.Row="0"
+                                   Background="WhiteSmoke"
+                                   Document ="{CompiledBinding XmlSourceDocument}"
+                                   SyntaxHighlighting="{CompiledBinding XmlSourceDocumentSyntax}"/>
+                <GridSplitter ResizeDirection="Rows" Height="1" Grid.Row="1"/>
+                <source:TextEditor x:Name="XCodeSourceEditor"
+                                   Grid.Row="2"
+                                   Background="FloralWhite"
+                                   Document="{CompiledBinding CodeDocument}"
+                                   SyntaxHighlighting="{CompiledBinding CodeDocumentSyntax}"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
+
+</Window>
