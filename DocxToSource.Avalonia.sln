@@ -8,6 +8,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		README.md = README.md
 		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{F2F63D72-6AD4-4CB7-A929-91EE392729BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{DA84C69E-E581-49CF-94DA-E6CDA14842FD}"
+	ProjectSection(SolutionItems) = preProject
+		.github\worklflows\dotnet.yml = .github\workflows\dotnet.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{68903E31-FA97-4F21-B4A3-F9180A32B045}"
+	ProjectSection(SolutionItems) = preProject
 		assets\Example.png = assets\Example.png
 	EndProjectSection
 EndProject
@@ -21,5 +32,8 @@ Global
 		{63090E94-C461-4804-9E1A-29A09B8C99AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63090E94-C461-4804-9E1A-29A09B8C99AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63090E94-C461-4804-9E1A-29A09B8C99AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DA84C69E-E581-49CF-94DA-E6CDA14842FD} = {F2F63D72-6AD4-4CB7-A929-91EE392729BF}
 	EndGlobalSection
 EndGlobal
